@@ -50,7 +50,8 @@ else()
         "pq-crypto/sike_r1/*.h"
         "pq-crypto/sike_r2/*.h"
         "pq-crypto/kyber_r2/*.h"
-        "pq-crypto/kyber_90s_r2/*.h")
+        "pq-crypto/kyber_90s_r2/*.h"
+        "pq-crypto/kyber_r3/*.h")
 
     # The SIKE code #includes .c files directly, including all sike_r*/*.c breaks the build due to duplicates
     file(GLOB PQ_SRC
@@ -64,7 +65,8 @@ else()
         "pq-crypto/sike_r2/fips202.c"
         "pq-crypto/sike_r2/P434.c"
         "pq-crypto/kyber_r2/*.c"
-        "pq-crypto/kyber_90s_r2/*.c")
+        "pq-crypto/kyber_90s_r2/*.c"
+        "pq-crypto/kyber_r3/*.c")
 
     # The BIKE Round-3 code has AVX optimizations for x86_64 platforms,
     # so we include these files only when compiling on x86_64 platform,
@@ -85,6 +87,7 @@ else()
             "pq-crypto/bike_r3/*_portable.c")
         set(BIKE_R3_X86_64_OPT_SUPPORTED OFF)
     endif()
+    
 endif()
 
 ##be nice to visual studio users
