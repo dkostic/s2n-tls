@@ -83,6 +83,7 @@ else()
             "pq-crypto/bike_r3/sampling.c"
             "pq-crypto/bike_r3/utilities.c"
             "pq-crypto/bike_r3/*_portable.c")
+        set(BIKE_R3_X86_64_OPT_SUPPORTED OFF)
     endif()
 endif()
 
@@ -115,7 +116,6 @@ set(ADX_SUPPORTED false)
 
 if(S2N_NO_PQ_ASM)
     message(STATUS "S2N_NO_PQ_ASM flag was detected - disabling PQ crypto assembly code")
-    # TODO: add DISABLE_NON_PORTABLE_CODE flag for BIKE files.
 else()
     enable_language(ASM)
 
@@ -144,10 +144,6 @@ else()
                 "-DS2N_ADX"
         )
     endif()
-
-    # TODO: consider adding the try_compile the same as for SIKE
-
-
 endif()
 
 # Probe for execinfo.h extensions (not present on some systems, notably android)
@@ -254,7 +250,6 @@ if(BIKE_R3_X86_64_OPT_SUPPORTED)
 
     set(BIKE_R3_AVX512_FLAGS "-mavx512f;-mavx512bw;-mavx512dq")
 
-    # TODO: consider the pclmul vs. avx2 situation
     set_source_files_properties(${BIKE_R3_AVX2_SRCS} PROPERTIES COMPILE_OPTIONS "-mavx2")
     set_source_files_properties(${BIKE_R3_AVX512_SRCS} PROPERTIES COMPILE_OPTIONS "${BIKE_R3_AVX512_FLAGS}")
     set_source_files_properties(${BIKE_R3_PCLMUL_SRCS} PROPERTIES COMPILE_OPTIONS "-mpclmul")
