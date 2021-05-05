@@ -51,9 +51,11 @@ else()
         "pq-crypto/sike_r2/*.h"
         "pq-crypto/kyber_r2/*.h"
         "pq-crypto/kyber_90s_r2/*.h"
-        "pq-crypto/kyber_r3/*.h")
+        "pq-crypto/kyber_r3/*.h"
+        "pq-crypto/sike_r3/*.h")
 
-    # The SIKE code #includes .c files directly, including all sike_r*/*.c breaks the build due to duplicates
+    # The SIKE r1 and r2 code #includes .c files directly; including sike_r{1, 2}/*.c
+    # here breaks the build due to duplicates. The SIKE r3 code does not have this issue.
     file(GLOB PQ_SRC
         "pq-crypto/*.c"
         "pq-crypto/bike_r1/*.c"
@@ -66,7 +68,8 @@ else()
         "pq-crypto/sike_r2/P434.c"
         "pq-crypto/kyber_r2/*.c"
         "pq-crypto/kyber_90s_r2/*.c"
-        "pq-crypto/kyber_r3/*.c")
+        "pq-crypto/kyber_r3/*.c"
+        "pq-crypto/sike_r3/*.c")
 
     # The BIKE Round-3 code has AVX optimizations for x86_64 platforms,
     # so we include these files only when compiling on x86_64 platform,
