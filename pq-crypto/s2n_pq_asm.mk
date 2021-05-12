@@ -34,4 +34,37 @@ ifndef S2N_NO_PQ_ASM
 
 		SIKEP434R2_ASM_OBJ=$(SIKEP434R2_ASM_SRC:.S=.o)
 	endif
+
+	# BIKE Round-3 features several optimizations for x86_64 platforms.
+	# We check here if the compiler supports the required instruction set
+	# extensions and set proper flags.
+	#TODO: fix spaces->tabs
+
+	dummy_file := "$(S2N_ROOT)/tests/unit/s2n_pq_asm_noop_test.c"
+	BIKE_R3_AVX2_SUPPORTED := $(shell $(CC) -mavx2 -c $(dummy_file) > /dev/null 2>&1; echo $$?)
+	ifeq ($(BIKE_R3_AVX2_SUPPORTED), 0)
+		CFLAGS += -DS2N_BIKE_R3_AVX2
+		CFLAGS_LLVM += -DS2N_BIKE_R3_AVX2
+		BIKE_R3_AVX2_FLAGS := "-mavx2"
+	endif
+	BIKE_R3_AVX512_SUPPORTED := $(shell $(CC) -mavx512f -mavx512bw -mavx512dq -c $(dummy_file) > /dev/null 2>&1; echo $$?)
+    ifeq ($(BIKE_R3_AVX512_SUPPORTED), 0)
+		CFLAGS += -DS2N_BIKE_R3_AVX512
+    	CFLAGS_LLVM += -DS2N_BIKE_R3_AVX512
+        BIKE_R3_AVX512_FLAGS := "-mavx512f -mavx512bw -mavx512dq"
+    endif
+    BIKE_R3_PCLMUL_SUPPORTED := $(shell $(CC) -mpclmul -c $(dummy_file) > /dev/null 2>&1; echo $$?)
+    ifeq ($(BIKE_R3_PCLMUL_SUPPORTED), 0)
+        CFLAGS += -DS2N_BIKE_R3_PCLMUL
+        CFLAGS_LLVM += -DS2N_BIKE_R3_PCLMUL
+        BIKE_R3_PCLMUL_FLAGS := "-mpclmul"
+    endif
+    BIKE_R3_PCLMUL_SUPPORTED := $(shell $(CC) -mvpclmulqdq -c $(dummy_file) > /dev/null 2>&1; echo $$?)
+    ifeq ($(BIKE_R3_VPCLMUL_SUPPORTED), 0)
+        CFLAGS += -DS2N_BIKE_R3_VPCLMUL
+        CFLAGS_LLVM += -DS2N_BIKE_R3_VPCLMUL
+        BIKE_R3_PCLMUL_FLAGS := "-mvpclmulqdq -mavx512f -mavx512bw -mavx512dq"
+    endif
+
+
 endif

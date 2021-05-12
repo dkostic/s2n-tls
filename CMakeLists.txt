@@ -151,7 +151,7 @@ else()
     # depending on the compiler support for AVX.
     if(${CMAKE_SYSTEM_PROCESSOR} MATCHES "^(x86_64|amd64|AMD64)$")
 
-        set(BIKE_R3_AVX512_FLAGS "-mavx512f;-mavx512bw;-mavx512dq")
+        set(BIKE_R3_AVX512_FLAGS "-mavx512f -mavx512bw -mavx512dq")
 
         # First, check if the compiler supports the specific instruction set
         # extensions. For example, gcc-4 doesn't fully support AVX-512, while
@@ -281,25 +281,25 @@ if(BIKE_R3_X86_64_OPT_SUPPORTED)
     # TODO: add comment
     if(BIKE_R3_AVX2_SUPPORTED)
         FILE(GLOB BIKE_R3_AVX2_SRCS "pq-crypto/bike_r3/*_avx2.c")
-        set_source_files_properties(${BIKE_R3_AVX2_SRCS} PROPERTIES COMPILE_FLAGS "-mavx2")
+        set_source_files_properties(${BIKE_R3_AVX2_SRCS} PROPERTIES COMPILE_FLAGS -mavx2)
         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_AVX2)
     endif()
 
     if(BIKE_R3_AVX512_SUPPORTED)
         FILE(GLOB BIKE_R3_AVX512_SRCS "pq-crypto/bike_r3/*_avx512.c")
-        set_source_files_properties(${BIKE_R3_AVX512_SRCS} PROPERTIES COMPILE_FLAGS "${BIKE_R3_AVX512_FLAGS}")
+        set_source_files_properties(${BIKE_R3_AVX512_SRCS} PROPERTIES COMPILE_FLAGS ${BIKE_R3_AVX512_FLAGS})
         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_AVX512)
     endif()
 
     if(BIKE_R3_PCLMUL_SUPPORTED)
         FILE(GLOB BIKE_R3_PCLMUL_SRCS "pq-crypto/bike_r3/*_pclmul.c")
-        set_source_files_properties(${BIKE_R3_PCLMUL_SRCS} PROPERTIES COMPILE_FLAGS "-mpclmul")
+        set_source_files_properties(${BIKE_R3_PCLMUL_SRCS} PROPERTIES COMPILE_FLAGS -mpclmul)
         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_PCLMUL)
     endif()
 
     if(BIKE_R3_VPCLMUL_SUPPORTED)
         FILE(GLOB BIKE_R3_VPCLMUL_SRCS "pq-crypto/bike_r3/*_vpclmul.c")
-        set_source_files_properties(${BIKE_R3_VPCLMUL_SRCS} PROPERTIES COMPILE_FLAGS "-mvpclmulqdq;${BIKE_R3_AVX512_FLAGS}")
+        set_source_files_properties(${BIKE_R3_VPCLMUL_SRCS} PROPERTIES COMPILE_FLAGS -mvpclmulqdq ${BIKE_R3_AVX512_FLAGS})
         target_compile_options(${PROJECT_NAME} PUBLIC -DS2N_BIKE_R3_VPCLMUL)
     endif()
 
