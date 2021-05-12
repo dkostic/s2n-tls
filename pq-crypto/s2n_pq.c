@@ -27,6 +27,7 @@ static bool bike_r3_vpclmul_enabled = false;
 /* https://en.wikipedia.org/wiki/CPUID */
 #include <cpuid.h>
 
+#define PROCESSOR_INFO_AND_FEATURES    1
 #define EXTENDED_FEATURES_LEAF         7
 #define EXTENDED_FEATURES_SUBLEAF_ZERO 0
 
@@ -45,6 +46,7 @@ static bool bike_r3_vpclmul_enabled = false;
 #define EBX_BIT_AVX2    (1 << 5)
 #define EBX_BIT_AVX512  (1 << 16)
 #define ECX_BIT_VPCLMUL (1 << 10)
+#define ECX_BIT_PCLMUL  (1 << 1)
 
 bool s2n_get_cpuid_count(uint32_t leaf, uint32_t sub_leaf, uint32_t *eax, uint32_t *ebx, uint32_t *ecx, uint32_t *edx) {
     /* 0x80000000 probes for extended cpuid info */
@@ -94,11 +96,11 @@ bool s2n_cpu_supports_sikep434r2_asm() {
 }
 
 void s2n_bike_r3_x86_64_opt_init() {
+    // AVX2, AVX512, and VPCLMUL bits are in the extended features flags.
     uint32_t eax, ebx, ecx, edx;
     if (!s2n_get_cpuid_count(EXTENDED_FEATURES_LEAF, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
         return;
     }
-
 #if defined(S2N_BIKE_R3_AVX2)
     bike_r3_avx2_enabled = (ebx & EBX_BIT_AVX2) != 0;
 #else
@@ -109,16 +111,22 @@ void s2n_bike_r3_x86_64_opt_init() {
 #else
     bike_r3_avx512_enabled = false;
 #endif
-#if defined(S2N_BIKE_R3_PCLMUL)
-    // TODO: check the flag
-    bike_r3_pclmul_enabled = bike_r3_avx2_enabled;
-#else
-    bike_r3_pclmul_enabled = false;
-#endif
 #if defined(S2N_BIKE_R3_VPCLMUL)
     bike_r3_vpclmul_enabled = (ecx & ECX_BIT_VPCLMUL) != 0;
 #else
     bike_r3_vpclmul_enabled = false;
+#endif
+
+    // PCLMUL is in the processor info and features flags,
+    // so we have to read these separately.
+    uint32_t eax, ebx, ecx, edx;
+    if (!s2n_get_cpuid_count(PROCESSOR_INFO_AND_FEATURES, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
+        return;
+    }
+#if defined(S2N_BIKE_R3_PCLMUL)
+    bike_r3_pclmul_enabled = (ecx & ECX_BIT_PCLMUL) != 0;
+#else
+    bike_r3_pclmul_enabled = false;
 #endif
 }
 
