@@ -99,7 +99,7 @@ bool s2n_cpu_supports_bike_r3_avx2() {
 #if defined(S2N_BIKE_R3_AVX2)
     uint32_t eax, ebx, ecx, edx;
     if (!s2n_get_cpuid_count(EXTENDED_FEATURES_LEAF, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
-        return;
+        return false;
     }
     return ((ebx & EBX_BIT_AVX2) != 0);
 #else
@@ -111,7 +111,7 @@ bool s2n_cpu_supports_bike_r3_avx512() {
 #if defined(S2N_BIKE_R3_AVX512)
     uint32_t eax, ebx, ecx, edx;
     if (!s2n_get_cpuid_count(EXTENDED_FEATURES_LEAF, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
-        return;
+        return false;
     }
     return ((ebx & EBX_BIT_AVX512) != 0);
 #else
@@ -123,7 +123,7 @@ bool s2n_cpu_supports_bike_r3_pclmul() {
 #if defined(S2N_BIKE_R3_PCLMUL)
     uint32_t eax, ebx, ecx, edx;
     if (!s2n_get_cpuid_count(PROCESSOR_INFO_AND_FEATURES, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
-        return;
+        return false;
     }
     return ((ecx & ECX_BIT_PCLMUL) != 0);
 #else
@@ -135,7 +135,7 @@ bool s2n_cpu_supports_bike_r3_vpclmul() {
 #if defined(S2N_BIKE_R3_AVX512)
     uint32_t eax, ebx, ecx, edx;
     if (!s2n_get_cpuid_count(EXTENDED_FEATURES_LEAF, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
-        return;
+        return false;
     }
     return ((ecx & ECX_BIT_VPCLMUL) != 0);
 #else
