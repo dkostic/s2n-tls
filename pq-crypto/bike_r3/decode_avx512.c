@@ -17,6 +17,8 @@
  *     e5089. https://doi.org/10.1002/cpe.5089.
  */
 
+#if defined(S2N_BIKE_R3_AVX512)
+
 #include "decode.h"
 #include "decode_internal.h"
 #include "utilities.h"
@@ -86,6 +88,8 @@ rotate512_small(OUT syndrome_t *out, IN const syndrome_t *in, size_t bitscount)
     previous = in512;
   }
 }
+
+#endif
 
 void rotate_right_avx512(OUT syndrome_t *out,
                          IN const syndrome_t *in,

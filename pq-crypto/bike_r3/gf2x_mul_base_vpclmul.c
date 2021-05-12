@@ -5,6 +5,8 @@
  * AWS Cryptographic Algorithms Group.
  */
 
+#if defined(S2N_BIKE_R3_VPCLMUL)
+
 #include "gf2x_internal.h"
 
 #define AVX512_INTERNAL
@@ -127,3 +129,5 @@ void gf2x_sqr_vpclmul(OUT dbl_pad_r_t *c, IN const pad_r_t *a)
     STORE(&c64[i * 2 + QWORDS_IN_ZMM], vr1);
   }
 }
+
+#endif

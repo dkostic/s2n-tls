@@ -94,21 +94,30 @@ bool s2n_cpu_supports_sikep434r2_asm() {
 }
 
 void s2n_bike_r3_x86_64_opt_init() {
-#if defined(S2N_BIKE_R3_X86_64)
-
     uint32_t eax, ebx, ecx, edx;
     if (!s2n_get_cpuid_count(EXTENDED_FEATURES_LEAF, EXTENDED_FEATURES_SUBLEAF_ZERO, &eax, &ebx, &ecx, &edx)) {
         return;
     }
 
-    bike_r3_avx2_enabled    = (ebx & EBX_BIT_AVX2) != 0;
-    bike_r3_avx512_enabled  = (ebx & EBX_BIT_AVX512) != 0;
-    bike_r3_pclmul_enabled  = bike_r3_avx2_enabled;
+#if defined(S2N_BIKE_R3_AVX2)
+    bike_r3_avx2_enabled = (ebx & EBX_BIT_AVX2) != 0;
+#else
+    bike_r3_avx2_enabled = false;
+#endif
+#if defined(S2N_BIKE_R3_AVX512)
+    bike_r3_avx512_enabled = (ebx & EBX_BIT_AVX512) != 0;
+#else
+    bike_r3_avx512_enabled = false;
+#endif
+#if defined(S2N_BIKE_R3_PCLMUL)
+    // TODO: check the flag
+    bike_r3_pclmul_enabled = bike_r3_avx2_enabled;
+#else
+    bike_r3_pclmul_enabled = false;
+#endif
+#if defined(S2N_BIKE_R3_VPCLMUL)
     bike_r3_vpclmul_enabled = (ecx & ECX_BIT_VPCLMUL) != 0;
 #else
-    bike_r3_avx2_enabled    = false;
-    bike_r3_avx512_enabled  = false;
-    bike_r3_pclmul_enabled  = false;
     bike_r3_vpclmul_enabled = false;
 #endif
 }
