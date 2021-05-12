@@ -39,7 +39,6 @@ $(AVX512_OBJS): CFLAGS += $(BIKE_R3_AVX512_FLAGS)
 $(PCLMUL_OBJS): CFLAGS += $(BIKE_R3_PCLMUL_FLAGS)
 $(VPCLMUL_OBJS): CFLAGS += $(BIKE_R3_VPCLMUL_FLAGS)
 
-
 #WA for GCC 4.8.5 bug.
 CFLAGS += -Wno-missing-braces -Wno-missing-field-initializers -I../../ -I$(LIBCRYPTO_ROOT)/include/ -I../../api/
 
@@ -51,6 +50,15 @@ CFLAGS_LLVM = -emit-llvm -c -g \
               -I$(LIBCRYPTO_ROOT)/include/ -I../../api/ -I../../
 
 BCS=$(addprefix $(BITCODE_DIR), $(SRCS:.c=.bc))
+AVX2_BCS=$(addprefix $(BITCODE_DIR), $(AVX2_SRCS:.c=.bc))
+AVX512_BCS=$(addprefix $(BITCODE_DIR), $(AVX512_SRCS:.c=.bc))
+PCLMUL_BCS=$(addprefix $(BITCODE_DIR), $(PCLMUL_SRCS:.c=.bc))
+VPCLMUL_BCS=$(addprefix $(BITCODE_DIR), $(VPCLMUL_SRCS:.c=.bc))
+
+$(AVX2_BCS): CFLAGS_LLVM += $(BIKE_R3_AVX2_FLAGS)
+$(AVX512_BCS): CFLAGS_LLVM += $(BIKE_R3_AVX512_FLAGS)
+$(PCLMUL_BCS): CFLAGS_LLVM += $(BIKE_R3_PCLMUL_FLAGS)
+$(VPCLMUL_BCS): CFLAGS_LLVM += $(BIKE_R3_VPCLMUL_FLAGS)
 
 .PHONY : bc
-bc: $(BCS)
+bc: $(BCS) $(AVX2_BCS) $(AVX512_BCS) $(PCLMUL_BCS) $(VPCLMUL_BCS)
