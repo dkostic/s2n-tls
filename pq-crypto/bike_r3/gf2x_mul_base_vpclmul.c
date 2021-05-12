@@ -131,3 +131,5 @@ void gf2x_sqr_vpclmul(OUT dbl_pad_r_t *c, IN const pad_r_t *a)
 }
 
 #endif
+
+typedef int dummy_typedef_to_avoid_empty_translation_unit_warning;

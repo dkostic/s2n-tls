@@ -112,3 +112,5 @@ int is_new_avx512(IN const idx_t *wlist, IN const size_t ctr)
 }
 
 #endif
+
+typedef int dummy_typedef_to_avoid_empty_translation_unit_warning;

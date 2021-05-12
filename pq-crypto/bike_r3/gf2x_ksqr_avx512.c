@@ -131,3 +131,5 @@ void k_sqr_avx512(OUT pad_r_t *c, IN const pad_r_t *a, IN const size_t l_param)
 }
 
 #endif
+
+typedef int dummy_typedef_to_avoid_empty_translation_unit_warning;

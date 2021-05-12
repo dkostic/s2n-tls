@@ -89,8 +89,6 @@ rotate512_small(OUT syndrome_t *out, IN const syndrome_t *in, size_t bitscount)
   }
 }
 
-#endif
-
 void rotate_right_avx512(OUT syndrome_t *out,
                          IN const syndrome_t *in,
                          IN const uint32_t    bitscount)
@@ -163,3 +161,7 @@ void bit_slice_full_subtract_avx512(OUT upc_t *upc, IN uint8_t val)
     }
   }
 }
+
+#endif
+
+typedef int dummy_typedef_to_avoid_empty_translation_unit_warning;

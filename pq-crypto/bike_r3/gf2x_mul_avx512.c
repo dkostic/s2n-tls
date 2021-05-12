@@ -105,3 +105,5 @@ void gf2x_red_avx512(OUT pad_r_t *c, IN const dbl_pad_r_t *a)
 }
 
 #endif
+
+typedef int dummy_typedef_to_avoid_empty_translation_unit_warning;

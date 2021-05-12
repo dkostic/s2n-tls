@@ -169,3 +169,5 @@ void bit_slice_full_subtract_avx2(OUT upc_t *upc, IN uint8_t val)
 }
 
 #endif
+
+typedef int dummy_typedef_to_avoid_empty_translation_unit_warning;
