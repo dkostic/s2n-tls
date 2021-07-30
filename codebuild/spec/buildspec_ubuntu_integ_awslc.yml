@@ -19,7 +19,6 @@ env:
     CB_BIN_DIR: "./codebuild/bin"
     S2N_LIBCRYPTO: "awslc"
     TESTS: "integration"
-    BUILD_S2N: true
 
 phases:
   install:
@@ -50,7 +49,7 @@ phases:
         if [ -d "third-party-src" ]; then
           cd third-party-src;
         fi
-      - GCC_VERSION=6 $CB_BIN_DIR/install_default_dependencies.sh
+      - GCC_VERSION=7 $CB_BIN_DIR/install_default_dependencies.sh
   build:
     commands:
       - printenv
