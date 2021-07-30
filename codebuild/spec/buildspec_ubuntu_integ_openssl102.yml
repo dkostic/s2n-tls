@@ -46,12 +46,10 @@ phases:
         if [ -d "third-party-src" ]; then
           cd third-party-src;
         fi
-      - S2N_LIBCRYPTO=openssl-1.0.2 $CB_BIN_DIR/install_default_dependencies.sh
       - S2N_LIBCRYPTO=openssl-1.0.2-fips $CB_BIN_DIR/install_default_dependencies.sh
   build:
     commands:
       - printenv
-      - S2N_LIBCRYPTO=openssl-1.0.2 TESTS=integration GCC_VERSION=6 $CB_BIN_DIR/s2n_codebuild.sh
       - S2N_LIBCRYPTO=openssl-1.0.2-fips TESTS=integration GCC_VERSION=6 $CB_BIN_DIR/s2n_codebuild.sh
   post_build:
     commands:
