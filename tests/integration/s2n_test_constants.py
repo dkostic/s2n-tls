@@ -125,7 +125,7 @@ S2N_LIBCRYPTO_TO_TEST_CIPHERS = {
     "openssl-1.0.2-fips"    : OPENSSL_1_0_2_FIPS_TEST_CIPHERS,
     "libressl"              : LIBRESSL_TEST_CIPHERS,
     "boringssl"             : BORINGSSL_TEST_CIPHERS,
-    "awslc"                 : AWSLC_TEST_CIPHERS,
+    "awslc"                 : OPENSSL_1_0_2_FIPS_TEST_CIPHERS
 }
 
 S2N_LIBCRYPTO_TO_OCSP = {
