@@ -17,7 +17,7 @@ env:
   variables:
     # CODEBUILD_ is a reserved namespace.
     CB_BIN_DIR: "./codebuild/bin"
-    S2N_LIBCRYPTO: "awslc"
+    S2N_LIBCRYPTO: "awslc-fips"
     TESTS: "integration"
     BUILD_S2N: true
 
