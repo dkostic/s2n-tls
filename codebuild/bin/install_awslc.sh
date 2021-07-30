@@ -34,11 +34,11 @@ cd aws-lc
 mkdir build
 cd build
 
-if [ "$OPENSSL_FIPS" == "1" ]; then
-    CC=gcc-7 CXX=g++-7 cmake .. -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DFIPS=1
-else
-    cmake .. -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
-fi
+#if [ "$OPENSSL_FIPS" == "1" ]; then
+CC=gcc-7 CXX=g++-7 cmake .. -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DFIPS=1
+#else
+#    cmake .. -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}"
+#fi
 
 ninja -j "${JOBS}" install
 
