@@ -19,7 +19,6 @@ env:
     CB_BIN_DIR: "./codebuild/bin"
     S2N_LIBCRYPTO: "awslc-fips"
     TESTS: "integration"
-    BUILD_S2N: true
 
 phases:
   install:

@@ -126,6 +126,7 @@ S2N_LIBCRYPTO_TO_TEST_CIPHERS = {
     "libressl"              : LIBRESSL_TEST_CIPHERS,
     "boringssl"             : BORINGSSL_TEST_CIPHERS,
     "awslc"                 : AWSLC_TEST_CIPHERS,
+    "awslc-fips"            : OPENSSL_1_0_2_FIPS_TEST_CIPHERS,
 }
 
 S2N_LIBCRYPTO_TO_OCSP = {
@@ -135,9 +136,10 @@ S2N_LIBCRYPTO_TO_OCSP = {
     "libressl"              : [OCSP.ENABLED, OCSP.DISABLED, OCSP.MALFORMED],
     "boringssl"             : [OCSP.DISABLED],
     "awslc"                 : [OCSP.DISABLED],
+    "awslc-fips"            : [OCSP.DISABLED],
 }
 
-S2N_LIBCRYPTO_CHOICES = ['openssl-1.0.2', 'openssl-1.0.2-fips', 'openssl-1.1.1', 'libressl', 'boringssl', 'awslc']
+S2N_LIBCRYPTO_CHOICES = ['openssl-1.0.2', 'openssl-1.0.2-fips', 'openssl-1.1.1', 'libressl', 'boringssl', 'awslc', 'awslc-fips']
 
 S2N_PROTO_VERS_TO_STR = {
     S2N_SSLv3 : "SSLv3",

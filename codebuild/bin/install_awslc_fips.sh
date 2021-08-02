@@ -30,10 +30,11 @@ source codebuild/bin/jobs.sh
 
 cd "$BUILD_DIR"
 git clone https://github.com/awslabs/aws-lc.git
+cd aws-lc
 mkdir build
 cd build
 
-cmake ../aws-lc -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DFIPS=1
+CC=gcc-7 CXX=g++-7 cmake .. -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DFIPS=1
 ninja -j "${JOBS}" install
 
 popd
