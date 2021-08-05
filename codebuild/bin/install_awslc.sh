@@ -34,7 +34,7 @@ cd aws-lc
 mkdir build
 cd build
 
-cmake ../aws-lc -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DFIPS=${AWSLC_FIPS}
+cmake .. -GNinja -DBUILD_SHARED_LIBS=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}" -DFIPS=${AWSLC_FIPS}
 ninja -j "${JOBS}" install
 
 popd
